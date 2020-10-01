@@ -18,6 +18,10 @@ clock = pygame.time.Clock()
 fps = 60
 
 hue = 0.1
+max = 7
+speed = 0.3
+counter = 0
+iterations = 0
 segments = []
 a = vector2(600, 300)
 b = vector2(1400, 300)
@@ -31,7 +35,7 @@ segments.append(s1)
 segments.append(s2)
 segments.append(s3)
 
-def onMousePressed():
+def iteration():
     global segments
     next_gen = []
     for s in segments:
@@ -46,11 +50,15 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            onMousePressed()
+
+    if counter > 10 and iterations is not max:
+        iteration()
+        counter = 0
+        iterations += 1
     for s in segments:
         s.Display(screen, hsv_to_rgb(hue, 1, 1))
     hue += 0.002
+    counter += speed
     pygame.display.update()
 
 pygame.quit()
